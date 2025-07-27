@@ -8,8 +8,9 @@ class Item {
     public:
     string key;
     string value;
+    bool deleted;
 
-    Item(const string& k, const string& v) : key(k), value(v) {}
+    Item(const string& k, const string& v) : key(k), value(v), deleted(false) {}
 
     Item(const string& k) : Item(k, "") {}
 
@@ -19,31 +20,30 @@ class Item {
 
 class HashTable {
     public:
-    unique_ptr<vector<Item>> items;
+    vector<unique_ptr<Item>> m_items;
 
-    size_t getSize() {
-        return (*items).size();
-    }
-    bool count(const string& key);{
-        auto pt = find((*items).begin(), (*items).end(), key);
-        return (pt != (*items).end());
-    }
-    string* search(const string& key);
+    size_t getSize() const; //
+
+    bool count(const string& key); //
+
+    string* search(const string& key) const ;
+
     void insert(const string& key, const string& value);
+
     void remove(const string& key);
 
     HashTable();
     ~HashTable();
 
     private:
-    size_t hash(const string& s, const int& num_buckets) {
-        long long hashIndex = 0;
-        int n = s.length();
-        for(size_t i = 0; i < n; i++) {
-            hashIndex = (hashIndex * 151 + s[i]) % num_buckets;
-        }
-        return static_cast<size_t>(hashIndex);
-    }
+    size_t m_size;
+    size_t m_count;
+    int primeOne = 151;
+    int primeTwo = 47;
+
+    size_t hashOne(const string& s) const; //
+
+    size_t hashTwo(const string& s) const; //
     
 };
 
@@ -51,13 +51,4 @@ class HashTable {
 
 
 
-
-
-
-
-
-int main() {
-
-    return 0;
-}
 
